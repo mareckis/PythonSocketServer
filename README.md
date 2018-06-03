@@ -1,1 +1,2 @@
-# PythonSocketServer for the purpose to create socket for Android Client
+# PythonSocketServer 
+For the purpose to create socket for Android Client
