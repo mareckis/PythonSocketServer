@@ -1,15 +1,23 @@
 from socket import *
 from threading import Thread
 
-host = "127.0.0.1"
-port = 8000
+HOST = 'localhost'
+PORT = 50000
 
 s = socket(AF_INET,SOCK_STREAM) #create socket
-s.bind((host,port))
+s.bind((HOST,PORT))
 s.listen(1) #number of connections available
 
-connection_id, ip_address = s._accept()
+connection, address = s.accept()
 
-print ('Connection with client:', ip_address)
+print ('Connection with client:', address)
+
+while True:
+    data = connection.recv(1024)
+    if not data:
+        break
+    print ('Client: ', repr(data))
+
+connection.close()
 
 
