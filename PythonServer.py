@@ -1,23 +1,37 @@
 from socket import *
-from threading import Thread
+import threading
+from _thread import *
 
-HOST = 'localhost'
-PORT = 50000
+def ClientHandlingFunction(client_socket,client_address):
 
-s = socket(AF_INET,SOCK_STREAM) #create socket
-s.bind((HOST,PORT))
-s.listen(1) #number of connections available
+    print("Client connected: ", client_address)
 
-connection, address = s.accept()
+    while True:
+        data = client_socket.recv(1024)
+        if not data:
+            break
+        else:
+            print ("Client {client_address} message: {}".format(client_address,data))
+            client_socket.send()
+    client_socket.close()
 
-print ('Connection with client:', address)
+def Main():
+    HOST = 'localhost'
+    PORT = 50000
 
-while True:
-    data = connection.recv(1024)
-    if not data:
-        break
-    print ('Client: ', repr(data))
+    s = socket(AF_INET,SOCK_STREAM) #create socket
+    s.bind((HOST,PORT))
+    s.listen(5) #number of connections available
 
-connection.close()
+    print ("Server ok")
 
+    while True:
+        print ("Listening")
 
+        client_socket, client_address = s.accept()
+        start_new_thread(ClientHandlingFunction,(client_socket,client_address))
+
+    s.close()
+
+if __name__ == "__main__":
+    Main()
