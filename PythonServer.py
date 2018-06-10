@@ -11,8 +11,8 @@ def ClientHandlingFunction(client_socket,client_address):
         if not data:
             break
         else:
-            print ("Client {client_address} message: {}".format(client_address,data))
-            client_socket.send()
+            print ("Client ", client_address, "message:", data)
+            client_socket.send(data)
     client_socket.close()
 
 def Main():
